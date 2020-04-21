@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="covid19.css">
+  <title>CoronaMap</title>
+  <script src="covid.js"></script>
+  <script>
+    getJSON('https://covid19-brazil-api.now.sh/api/report/v1/brazil',(err,jon)=>
+    {
+      if (err !== null) {
+        alert('Something went wrong: ' + err);
+      }else {
+        //alert('Your query count: ' + jon);
+        console.log(jon.data.country)
+        document.getElementById("country").innerHTML=jon.data.country
+        document.getElementById("cases").innerHTML=jon.data.cases
+        document.getElementById("confirmed").innerHTML=jon.data.confirmed
+        document.getElementById("deaths").innerHTML=jon.data.deaths
+        document.getElementById("recovered").innerHTML=jon.data.recovered
+      }
+    })
+    
+    /*
+    cases=ativos
+    confirmed=confirmados
+    deaths=mortos
+    recovered=recuperados
+    */
+    </script>
+ 
+</head>
+<body>
+  <div class="">
+    <div class="row">
+      <div class="column">
+        <div class="card">
+    <h3><label for="" id="country"></label></h3>
+      
+
+      <table>
+        <tr>
+          <td>
+            Ativos:
+          </td>
+
+          <td>
+            <label for="" id="cases"></label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Confirmados:
+          </td>
+          <td>
+            <label for="" id="confirmed"></label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Mortos:
+          </td>
+          <td>
+            <label for="" id="deaths"></label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Recuperados:
+          </td>
+          <td>
+            <label for="" id="recovered"></label>
+          </td>
+        </tr>
+      </table>
+
+      <a href="covid19estados.html"><button>VER TODOS OS ESTADOS</button></a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <small>Fonte:OMS</small>
+  <a href="https://covid19-brazil-api.now.sh/"><small>Api Utilizada:covid19brazilapi</small></a>
+  
+</body>
+</html>

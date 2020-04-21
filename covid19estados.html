@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="covid19.css">
+    <title>Covid por estado</title>
+    <script src="covid.js"></script>
+    <script>
+         //Carrega a funcao exibir quando a pagina carregar
+         window.addEventListener('load', exibir);
+
+        //Funcao assíncrona: quando requisitamos algo que necessita de um tempo usamos esta funcao para aguardar a requisicao até que ela seja feita.
+        async function exibir(){ 
+
+        //Array contendo estados
+        const uf= ['ac','al', 'ap', 'am', 'ba', 'ce', 'df', 'es', 'go', 'ma', 'mt', 'ms', 'mg', 'pa', 'pb','pr', 'pe', 'pi', 'rj', 'rn', 'rs', 'ro', 'rr', 'sc', 'sp', 'se', 'to']; 
+        
+        var tabela= document.getElementById('row');
+        var tag= '';
+
+        for (var i=0;i<uf.length;i++){
+            url='https://covid19-brazil-api.now.sh/api/report/v1/brazil/uf/'+uf[i]
+            //Usamos await quando queremos aguardar alguma requisicao feita dentro da funcao assíncrona, assim somente quando esta requisicao estiver completa ele executa a funcao
+            
+            //Obs: Se remover o await quando chamar a requisicao da api ela vai retorna os dados de forma desornada, exibindo o primeiro dado que foi carregado.
+
+            //Aqui ele cria um uma estrutura html dentro de uma string e insere ela dentro o div row
+            await getJSON(url,(err,dados)=>{
+                tag+='<div class="column">'
+                tag+='<div class="card">'
+                tag+='<hr>'
+                tag+='<h3><label>'+dados.state+'</label></h3>'
+                tag+='<hr>'
+                tag+='<h5>Casos:<label>'+dados.cases+'</label></h5>'
+                tag+='<h5>Mortes:<label>'+dados.deaths+'</label></h5>'
+                tag+='<h5>Suspeitos:<label>'+dados.suspects+'</label></h5>'
+                tag+='<h5>Descartados:<label>'+dados.refuses+'</label></h5>'
+                tag+='</div>'
+                tag+='</div>'
+    
+                document.getElementById('row').innerHTML=tag;
+
+
+            })
+        }    
+        }
+    </script>
+</head>
+<body>
+
+    <div id="row" class="row">
+        
+    </div>
+
+
+    <hr>
+    <small>Fonte:OMS</small><br>
+    <a href="https://covid19-brazil-api.now.sh/"><small>Api Utilizada:covid19brazilapi</small></a>
+    <hr>
+
+</body>
+</html>
